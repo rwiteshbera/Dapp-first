@@ -1,0 +1,59 @@
+.container {
+  width: 100vw;
+  display: flex;
+  margin: 20vmin auto;
+  /* padding: 1rem; */
+}
+
+.form {
+  display: flex;
+  gap: 0.5em;
+  margin-bottom: 1rem;
+}
+
+
+.button-group{
+  display: flex;
+}
+
+Button {
+  width: 7rem;
+  margin: 0.1em;
+  height: min-content;
+}
+
+#textarea {
+  min-width: 45vw;
+  min-height: 10vh;
+}
+
+.gif-img{
+  width: 15vw;
+  margin-right: -3vw;
+}
+
+.connect {
+  width: max-content;
+}
+
+.message-box{
+  margin-top: 2rem;
+  max-width: 55vw;
+}
+
+
+@media (max-width: 800px) {
+  .gif-img {
+    margin-left: 40%;
+  }
+  .container {
+    /* justify-content: baseline; */
+    display: inline-block;
+    flex-wrap: wrap;
+  }
+
+  .button-group{
+    flex-wrap: wrap;
+  }
+
+}
