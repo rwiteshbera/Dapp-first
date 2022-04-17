@@ -2,16 +2,22 @@
   "abi": [
     {
       "inputs": [],
-      "stateMutability": "payable",
+      "stateMutability": "nonpayable",
       "type": "constructor"
     },
     {
       "anonymous": false,
       "inputs": [
         {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
           "indexed": false,
           "internalType": "string",
-          "name": "message",
+          "name": "msg",
           "type": "string"
         }
       ],
@@ -20,25 +26,24 @@
     },
     {
       "inputs": [],
-      "name": "data",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "getData",
       "outputs": [
         {
-          "internalType": "string",
+          "components": [
+            {
+              "internalType": "address",
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "message",
+              "type": "string"
+            }
+          ],
+          "internalType": "struct SimpleStorage.Message[]",
           "name": "",
-          "type": "string"
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",

@@ -41,6 +41,16 @@ Button {
   max-width: 55vw;
 }
 
+.single-msg {
+  margin-bottom: 1em;
+  background-color: rgb(240, 240, 240);
+  padding: 0.5em;
+}
+
+#single-msg-address{
+  font-size: 0.9em;
+}
+
 
 @media (max-width: 800px) {
   .gif-img {

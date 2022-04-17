@@ -9,10 +9,10 @@ import etherMessage from "./images/gif-ether.gif";
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [inputText, setInputText] = useState("");
-  const [message, setMessage] = useState("");
+  const [allMessages, setAllMessages] = useState([]);
 
   // const contractAddress = process.env.CONTRACT_ADDRESS;
-  const contractAddress = "0xb133a74E398889fadBA22e417F480FBA6BBc452A";
+  const contractAddress = "0x124623e5F558776dDe8dd173D248f1226a9D86c6";
   const contractABI = abi.abi;
 
   // Check if metamask is connected or not
@@ -22,8 +22,6 @@ const App = () => {
 
       if (!ethereum) {
         console.log("Make sure you have metamask!");
-      } else {
-        console.log("We have got metamask object: ", ethereum);
       }
 
       // Check if we are authorized to access user's wallet
@@ -31,7 +29,6 @@ const App = () => {
 
       if (accounts.length !== 0) {
         const account = accounts[0];
-        console.log("Authorized account found: ", account);
         setCurrentAccount(account);
       } else {
         console.log("No authorized account found.");
@@ -89,7 +86,6 @@ const App = () => {
   const getResult = async () => {
     try {
       const { ethereum } = window;
-
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
@@ -99,9 +95,17 @@ const App = () => {
           signer
         );
 
-        let result = await SimpleStorageContract.getData();
-        console.log(result);
-        setMessage(result);
+        let messages = await SimpleStorageContract.getData();
+        let messageCleaned = [];
+
+        messages.forEach((MSG) => {
+          messageCleaned.push({
+            address: MSG.sender,
+            message: MSG.message,
+          });
+        });
+
+        setAllMessages(messageCleaned.reverse());
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -119,8 +123,12 @@ const App = () => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-    getResult();
   }, []);
+
+  // Continously updating result
+  useEffect(() => {
+    getResult();
+  });
 
   return (
     <>
@@ -130,7 +138,7 @@ const App = () => {
         </div>
         <div className="right">
           {/* <input type="text" onChange={textChange} /> */}
-          <Form.Label>Mesage</Form.Label>
+          <Form.Label>Message</Form.Label>
           <Form className="form">
             <Form.Control
               as="textarea"
@@ -153,14 +161,21 @@ const App = () => {
               </Button>
             )}
             <Button variant="warning" onClick={sendData}>
-              Send Data
-            </Button>
-            <Button variant="warning" onClick={getResult}>
-              Fetch Data
+              Send
             </Button>
           </div>
           <div className="message-box">
-            <p id="message-p">{message}</p>
+            {allMessages.map((MSG, index) => {
+              return (
+                <div key={index} className="single-msg">
+                  <div id="single-msg-address">
+                    <b>From: </b>
+                    {MSG.address}
+                  </div>
+                  <div id="single-msg-message">{MSG.message}</div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

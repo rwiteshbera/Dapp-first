@@ -4,20 +4,25 @@ pragma solidity ^0.8.4;
 import "hardhat/console.sol";
 
 contract SimpleStorage {
-    string public data;
+    struct Message {
+        address sender;
+        string message;
+    }
 
-    event setDataEvent(string message);
+    event setDataEvent(address indexed from, string msg);
 
-    constructor() payable {
-        data = "_";
+    Message[] messages;
+
+    constructor() {
+        console.log("I am smart");
     }
 
     function setData(string memory _data) public {
-        data = _data;
-        emit setDataEvent(_data);
+        messages.push(Message(msg.sender, _data));
+        emit setDataEvent(msg.sender, _data);
     }
 
-    function getData() public view returns(string memory) {
-        return data;
+    function getData() public view returns(Message[] memory) {
+        return messages;
     }
 }
